@@ -58,8 +58,6 @@ outputHeader(true, $mysqli);
   
   ?>
   
-  
-  
   <?php
   outputFooter(true);
   $mysqli->close();

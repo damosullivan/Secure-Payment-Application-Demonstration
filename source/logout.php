@@ -7,9 +7,8 @@ session_start();
   
   $_SESSION = array();
 
-
 session_destroy();
-
+//mitigate($mysqli, "regenerateSessionId");
 header( 'Location: index.php?error=logged out' ) ;
 
 ?>

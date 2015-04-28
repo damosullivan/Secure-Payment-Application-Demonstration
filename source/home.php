@@ -1,150 +1,108 @@
 <?php
 
-  include_once("../include/config.php");
-  include_once(INCLUDE_DIR . "/" . "htmlFunctions.php");
-  include_once(INCLUDE_DIR . "/" . "mitigate.php");
-  include_once(INCLUDE_DIR . "/" . "FYP_functions.php");
+include_once("../include/config.php");
+include_once(INCLUDE_DIR . "/" . "htmlFunctions.php");
+include_once(INCLUDE_DIR . "/" . "mitigate.php");
+include_once(INCLUDE_DIR . "/" . "FYP_functions.php");
 
-  session_start();
+$mysqli = new mysqli( DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE );#Used till the end
 
-  $mysqli = new mysqli( DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE );#Used till the end
+httpsAndSessionFix($mysqli);
 
-    
-  #MAKE THIS A FUNCTION WHICH RETURNS TRUE OR FALSE, THE ERROR IF ANY OR USER ID!! TO BE USED THROUGHOUT THE PAGE
-  if( !loggedIn($mysqli) ) {
-    header( 'Location: logout.php' ) ;
-   
-  }else{
-  
-  }
-
-  $loggedIn = false;
-
-  outputHeader($loggedIn, $mysqli);
-
-    
-  $userId = $_SESSION['auth']['user_id'];
+$loggedIn = false;
+if( !loggedIn($mysqli) ) {
+	header( 'Location: logout.php' ) ;
+	die("Error: Not logged in");
+}else{
+	$loggedIn = true;
+}
 
 
-    
-    
-    echo "<h1>Home</h1>";
-    $name = $_SESSION['auth']['fName'];
-    echo "<h2>   Welcome, $name!</h2>";
-    echo '<p><a href="logout.php" >Log out?</a></p>';
-    
-    
-?>
-    
+outputHeader($loggedIn, $mysqli);
 
+$userId = $_SESSION['auth']['user_id'];
 
-<?php
-    
-    echo '<img src ="../Images/default.jpg" height="200px" />';
-    
-?>
-    <form id="newPic" method="post" action="profilePic.php" enctype="multipart/form-data" >  
-      <input type="file" name="file" id="file" /><!-- onchange="document.getElementById('newPic').submit();" -->
-      <input type="submit" name="submit" value="Submit">
-    </form>
-      
-    <h3>Store a card</h3>
-			
-			<form action="storeSecurly.php" method="post" >
-				<div>
-					<label for="card" >Card number:</label>
-					<input type="text" name="card" id="card" />
-				</div> 		
-			
-				<div>
-					<label for="MM" >Expiry date (MM/YYYY):</label>
-					<input type="text" name="MM" id="MM" size="4" />/
-					<input type="text" name="YY" id="YY" size="4" />
-				</div> 		
-				
-				<div>
-					<label for="serv" >Service code:</label>
-					<input type="text" name="serv" id="serv" />
-				</div> 		
-				
-				<div>			
-					
-					<input type="submit" value="Add securely" />
-				</div> 		
-			</form>	
-			
-			<h3>View stored cards</h3>
-			
-<?php
+$name = $_SESSION['auth']['fName'];
+echo "<h2>Welcome, $name</h2>";
 
-			$statement = $mysqli->prepare("SELECT CONCAT( MONTH(expDate), '/', YEAR(expDate)) as expDate, serviceCode, truncatedCard, cardId FROM FYP.card_info WHERE user = ?");
-      
-			
-			
-			$statement->bind_param('s', $userId);
-			$statement->execute();
-			$statement->store_result();
-			
-			 if ($statement->num_rows > 0) {
-			    
-			    $statement->bind_result($expDate, $serviceCode, $truncatedCard, $cardId);
-			    
-			    echo "<table><tr><th>Exp Date</th><th>Service Code</th><th>Card</th></tr>";
-			    
-			    while($statement->fetch()){
-				echo "<tr><td>".$expDate."</td><td>".$serviceCode."</td><td>".$truncatedCard."</td><td><a href=\"deleteCard.php?card_id=".$cardId."\" >Delete</a></td></tr>";
-				#echo $returned_name . '<br />';
-			    
-			    
-			    
-			    }
-			 
-			    echo "</table>";
-			
-			 
-			 }else{
-			    echo "<p>No cards stored :/ . Store some <em>securely</em>?</p>";
-			 }
-
-
-
-
-  /*
 ?>
 
 
-		 <?php
-		 
-			
-			<h3>View stored cards</h3>
-			
-			<?php
-			
-			$sql = "SELECT CONCAT( MONTH(expDate), '/', YEAR(expDate)) as expDate, serviceCode, truncatedCard FROM FYP.card_info WHERE user = '" . $userId . "';";	
-			//echo $sql;
-			$dbresult = mysql_query($sql);
-			if(mysql_num_rows($dbresult) == 0){
-				echo "<p>No cards stored :/ . Store some <em>securely</em>?</p>";
-				
-			}else{
-				echo "<table><tr><th>Exp Date</th><th>Service Code</th><th>Card</th></tr>"	;			
-				while($row = mysql_fetch_assoc($dbresult)){
-						echo "<tr><td>".$row['expDate']."</td><td>".$row['serviceCode']."</td><td>".$row['truncatedCard']."</td></tr>";
-					
-					
-				}	
-				echo "</table>";
-				
-			}
-			
-			
-			?>
-			
-		 	
+<div id="profile_pic" >
+	
+</div>
 
+<div class="row">
+	<div class="col-md-4">
+		<h3>Information</h3>
+		<table class="table" >
+			<tr>
+				<th>Name</th>
+				<td>Damien  O'Sullivan</td>
+			</tr>
+			<tr>
+				<th>Email</th>
+				<td>damosullivan@gmail.com</td>
+			</tr>
+			<tr>
+				<th>Cards</th>
+				<td>2</td>
+			</tr>
+			<tr>
+				<th>Transactions</th>
+				<td>10</td>
+			</tr>
+			<tr>
+				<th>Balance</th>
+				<td>&euro;123</td>
+			</tr>
+		</table>
+
+	</div>
+	<div class="col-md-4"></div>
+	<div class="col-md-4">
+		<?php
+		echo '<img src ="../Images/'.$_SESSION['auth']['imgUrl'].'" class="img-thumbnail" />';
+		?>
+
+		<form id="newPic" method="post" action="profilePic.php" enctype="multipart/form-data" >  
+			<input type="file" class="form-control" name="file" id="file" /><!-- onchange="document.getElementById('newPic').submit();" -->
+			<input type="text" class="form-control" name="file_name" placeholder="File name" id="file_name" /><!-- onchange="document.getElementById('newPic').submit();" -->
+			<button class="btn btn-primary btn-block" type="submit">Upload..</button>
+		</form>
+	</div>
+</div>
+
+
+<div class="row">
+	<div class="col-md-4">
+		<h3>Pay Someone</h3>
+		<p>You can transfer funds to someone via email.</p>
+		<form class=".form-control" action="payment.php" method="get" role="form" >
+			<div class="form-group" >
+				<label for="transfer_email" >Email address: </label>
+				<input type="text" class="form-control" name="email" id="transfer_email" />
+			</div>
+			<div class="form-group" >
+				<label for="transfer_amount" >Amount (&euro;): </label>
+				<input type="text" class="form-control" name="amount" id="transfer_amount" />
+			</div>
+			<div class="form-group" >
+				<label for="transfer_comment" >Description: </label>
+				<textarea name="comment" class="form-control" id="transfer_comment" rows="3" ></textarea>
+			</div>
+			<input class="btn btn-default" type="submit" value="Pay" />
+		</form>
+
+	</div>
+
+
+	<div class="col-md-8"></div>
+
+</div>
 
 <?php
-*/
-  outputFooter($loggedIn);
-  $mysqli->close();
+
+outputFooter($loggedIn);
+$mysqli->close();
 ?>

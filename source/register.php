@@ -51,8 +51,6 @@ outputHeader($loggedIn, $mysqli);
 	  echo "Num of rows = ".$statement->num_rows;
 	  die();
 	  
-	  
-	  
 	  if ($statement->num_rows == 0) {
 	  
 	    $sqlMitigate = array("regularSql" => "INSERT INTO `FYP`.`user_info` (`fName`, `sName`, `email`, `passwordHash`) VALUES ('" . $sqlFname . "', '" . $sqlSname . "', '". $sqlEmail . "', '". $pass. "');",
@@ -63,20 +61,10 @@ outputHeader($loggedIn, $mysqli);
 
 	    mitigate($mysqli, "preparedStatement", $sqlMitigate);
 	  
-	  
-	  
-	  
-	  
-	  
 	  }else{
 	    //email address already registered
 	  }
 	  
-	  
-	  
-	  
-	 
-	
 	?>
 
 <?php
