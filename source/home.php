@@ -1,44 +1,56 @@
 <?php
-  require_once("database_functions.php");
-  require_once("FYP_functions.php");
 
-	session_start();  
+  include_once("../include/config.php");
+  include_once(INCLUDE_DIR . "/" . "htmlFunctions.php");
+  include_once(INCLUDE_DIR . "/" . "mitigate.php");
+  include_once(INCLUDE_DIR . "/" . "FYP_functions.php");
+
+  session_start();
+
+  $mysqli = new mysqli( DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE );#Used till the end
+
+    
+  #MAKE THIS A FUNCTION WHICH RETURNS TRUE OR FALSE, THE ERROR IF ANY OR USER ID!! TO BE USED THROUGHOUT THE PAGE
+  if( !loggedIn($mysqli) ) {
+    header( 'Location: logout.php' ) ;
+   
+  }else{
   
-  if(!isset($_SESSION['inThere']) || $_SESSION['inThere'] != 1) {
-  		 header( 'Location: index.php?error=must_login' ) ;
-  		
   }
-  $userId = $_SESSION['userId'];
-  
- ?>
+
+  $loggedIn = false;
+
+  outputHeader($loggedIn, $mysqli);
+
+    
+  $userId = $_SESSION['auth']['user_id'];
+
+
+    
+    
+    echo "<h1>Home</h1>";
+    $name = $_SESSION['auth']['fName'];
+    echo "<h2>   Welcome, $name!</h2>";
+    echo '<p><a href="logout.php" >Log out?</a></p>';
+    
+    
+?>
+    
+
+
+<?php
+    
+    echo '<img src ="../Images/default.jpg" height="200px" />';
+    
+?>
+    <form id="newPic" method="post" action="profilePic.php" enctype="multipart/form-data" >  
+      <input type="file" name="file" id="file" /><!-- onchange="document.getElementById('newPic').submit();" -->
+      <input type="submit" name="submit" value="Submit">
+    </form>
+      
+    <h3>Store a card</h3>
 			
-<html>
-	<head>
-		<title>Hello</title>
-	</head>
-	<body>
-	
-		 <?php
-		 	$dbconnection = connect_to_database( 'localhost', 'dos4', 'Password123', 'FYP' );
-			
-			$sql = "SELECT * FROM FYP.user_info WHERE userId = '" . $userId . "';";	
-			//echo $sql;
-			
-			$dbresult = mysql_query($sql);
-		 	
-		 	if(mysql_num_rows($dbresult) != 1){
-				 unset($_SESSION['inThere']);
-				 header( 'Location: index.php?error=shit!' ) ;
-			}else {
-				$row = mysql_fetch_assoc($dbresult);
-				echo "<h1>Home</h1>";
-				$name = $row['fName'];
-				echo "<h2>   Welcome, $name!</h2>";			
-			}
-		 ?>
-			<h3>Store a card</h3>
-			
-			<form action="storeSecurly.php" action="get" >
+			<form action="storeSecurly.php" method="post" >
 				<div>
 					<label for="card" >Card number:</label>
 					<input type="text" name="card" id="card" />
@@ -59,9 +71,50 @@
 					
 					<input type="submit" value="Add securely" />
 				</div> 		
-			</form>		
-				
+			</form>	
 			
+			<h3>View stored cards</h3>
+			
+<?php
+
+			$statement = $mysqli->prepare("SELECT CONCAT( MONTH(expDate), '/', YEAR(expDate)) as expDate, serviceCode, truncatedCard, cardId FROM FYP.card_info WHERE user = ?");
+      
+			
+			
+			$statement->bind_param('s', $userId);
+			$statement->execute();
+			$statement->store_result();
+			
+			 if ($statement->num_rows > 0) {
+			    
+			    $statement->bind_result($expDate, $serviceCode, $truncatedCard, $cardId);
+			    
+			    echo "<table><tr><th>Exp Date</th><th>Service Code</th><th>Card</th></tr>";
+			    
+			    while($statement->fetch()){
+				echo "<tr><td>".$expDate."</td><td>".$serviceCode."</td><td>".$truncatedCard."</td><td><a href=\"deleteCard.php?card_id=".$cardId."\" >Delete</a></td></tr>";
+				#echo $returned_name . '<br />';
+			    
+			    
+			    
+			    }
+			 
+			    echo "</table>";
+			
+			 
+			 }else{
+			    echo "<p>No cards stored :/ . Store some <em>securely</em>?</p>";
+			 }
+
+
+
+
+  /*
+?>
+
+
+		 <?php
+		 
 			
 			<h3>View stored cards</h3>
 			
@@ -88,8 +141,10 @@
 			?>
 			
 		 	
-		 	
 
 
-	</body>
-</html>
+<?php
+*/
+  outputFooter($loggedIn);
+  $mysqli->close();
+?>

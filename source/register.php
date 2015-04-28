@@ -15,11 +15,6 @@ outputHeader($loggedIn, $mysqli);
 
 ?>
 
-<!--		
-echo mitigate('frameBlock');
-DONE IN HEAD!!!!!!
--->	
-
 <?php
   #mitigate("frameBlockingLegacy");
   #DONE AT  START OF BODY
@@ -76,6 +71,11 @@ DONE IN HEAD!!!!!!
 	  }else{
 	    //email address already registered
 	  }
+	  
+	  
+	  
+	  
+	 
 	
 	?>
 

@@ -38,8 +38,8 @@ outputHeader(true, $mysqli);
     echo "<h2>MySQLi Real Escape Strings</h2>";
      echo "<p>".mitigate($mysqli, "realEscapeString", "'It's a test string!'")."</p>";
   
-    #echo "<h2>Frame Blocking Legacy Test</h2>";
-    #echo "<code>".mitigate($mysqli, "frameBlockingLegacy")."</code>";
+    echo "<h2>Frame Blocking Legacy Test</h2>";
+    echo " <iframe src=\"index.php\" /></iframe>";
     
     echo "<h2>Session Regenerate Id</h2>";
     echo "<p>Old Session Id = '".session_id()."'.</p>";
@@ -58,9 +58,7 @@ outputHeader(true, $mysqli);
     
   ?>
   
-  <div id="dashboard" >
-  <iframe id="dashboard_iframe" src="../Dashboard/dash.php" widht="300px" onLoad="document.getElementById(id).height= (document.getElementById('dashboard_iframe').contentWindow.document.body.scrollHeight) + 'px'" ></iframe>
-  </div>
+  
   
 <?php
   outputFooter(true);

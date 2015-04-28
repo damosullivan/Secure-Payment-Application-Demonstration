@@ -40,40 +40,32 @@ outputHeader($loggedIn, $mysqli);
       echo "Logged in";
       
       $user_browser = $_SERVER['HTTP_USER_AGENT'];
-      $_SESSION['user_id'] = $user_id;
+      $_SESSION['auth']['user_id'] = $user_id;
       // XSS protection as we might print this value
       $username = preg_replace("/[^a-zA-Z0-9_\-]+/", "", $fName);
-      $_SESSION['fName'] = $fName;
+      $_SESSION['auth']['fName'] = $fName;
       
       $user_browser = $_SERVER['HTTP_USER_AGENT'];#can be checked evertime
-      $_SESSION['login_string'] = hash('sha512', $storedPass . $user_browser);#may not use!!
+      $_SESSION['auth']['login_string'] = hash('sha512', $storedPass . $user_browser);#may not use!!
       
       session_regenerate_id(TRUE);
-      
+     
+     /*
       echo "<ul>";
-      echo "<li>".$_SESSION['user_id']."</li>";
-      echo "<li>".$_SESSION['fName']."</li>";
-      echo "<li>".$_SESSION['login_string']."</li>";
+      echo "<li>".$_SESSION['auth']['user_id']."</li>";
+      echo "<li>".$_SESSION['auth']['fName']."</li>";
+      echo "<li>".$_SESSION['auth']['login_string']."</li>";
       echo "</ul>";
       
-      
-      
-      
-      
-      
-      
-      
+     */ 
+     
+     header( 'Location: home.php' ) ;
       
       
     }else{
       //wrong password
       echo "wrong password";
     }
-    
-    
-    
-    
-    
     
     
   }else{

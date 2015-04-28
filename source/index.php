@@ -64,6 +64,8 @@ outputHeader($loggedIn, $mysqli);
 			</div> 		
 		</form>	
 
+		 
+	 
 <?php
   outputFooter($loggedIn);
   $mysqli->close();
