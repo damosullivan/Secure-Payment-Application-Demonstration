@@ -76,6 +76,6 @@
 
 	mitigate($mysqli, "regenerateSessionId");
 
-	header( 'Location: home.php' ) ;
+	header( 'Location: cards.php' ) ;
 
 ?>

@@ -21,9 +21,12 @@ outputHeader($loggedIn, $mysqli);
 ?>
 
 <div class="jumbotron">
-	<h1>Security Application Demonstration</h1>
-	<p class="lead">This application allows you to demonstrate security vulnerabilities commonly seen on the web today</p>
-	<p><a class="btn btn-lg btn-success" href="signup.php" role="button">Sign up today</a></p>
+	<h1>Secure Payment Application Demonstration</h1>
+	<p class="lead">This application allows you to demonstrate
+and mitigate against security vulnerabilities
+commonly seen on the web today
+</p>
+	<p><a class="btn btn-lg btn-primary" href="signup.php" role="button">Sign up today</a></p>
 </div>
 
 <!--

@@ -38,16 +38,17 @@ $cleanEmail = mitigate($mysqli, 'realEscapeString', $email);
 
 if(mitigateBool($mysqli, "preparedStatement")){
 //if(false){
-	$statement = $mysqli->prepare("SELECT userId, fName, passwordHash, image FROM FYP.user_info WHERE email = ? LIMIT 1");
+	$statement = $mysqli->prepare("SELECT userId, fName, sName, passwordHash, image FROM FYP.user_info WHERE email = ? LIMIT 1");
 	$statement->bind_param('s', $cleanEmail);
 	$statement->execute();
 	$statement->store_result();
 
 	if ($statement->num_rows == 1) {
-		$statement->bind_result($user_id, $fName, $storedPass, $image);
+		$statement->bind_result($user_id, $fName, $sName, $storedPass, $image);
 		$statement->fetch();
 
 		list($salt, $iterator, $storedHashedPassword) = explode(":", $storedPass);
+
 
 		if($storedPass == hashPass($pass, $salt, $iterator) ){
 			echo "Logged in";
@@ -57,6 +58,8 @@ if(mitigateBool($mysqli, "preparedStatement")){
 	      // XSS protection as we might print this value
 			$username = preg_replace("/[^a-zA-Z0-9_\-]+/", "", $fName);
 			$_SESSION['auth']['fName'] = $fName;
+			$_SESSION['auth']['sName'] = $sName;
+			$_SESSION['auth']['email'] = $cleanEmail;
 
 
 			$_SESSION['auth']['imgUrl'] = $image;
@@ -80,7 +83,7 @@ if(mitigateBool($mysqli, "preparedStatement")){
 	  }else{
 	      //wrong password
 	  	echo "wrong password";
-	  	header( 'Location: index.php?error=wrong password' ) ;
+	  	header( 'Location: index.php?error=wrong password 1' ) ;
 	  }
 
 	}else{
@@ -89,7 +92,7 @@ if(mitigateBool($mysqli, "preparedStatement")){
 		header( 'Location: index.php?error=wrong email' ) ;
 	}
 }else{#not prepared statements!!!
-	$sql = "SELECT userId, fName, passwordHash, image FROM FYP.user_info WHERE email = '" . $cleanEmail . "' LIMIT 1";
+	$sql = "SELECT userId, fName, sName, passwordHash, image FROM FYP.user_info WHERE email = '" . $cleanEmail . "' LIMIT 1";
 
 	$result = $mysqli->query($sql);
 
@@ -101,6 +104,7 @@ if(mitigateBool($mysqli, "preparedStatement")){
 
 		$user_id = $firstRow['userId'];
 		$fName = $firstRow['fName'];
+		$sName = $firstRow['sName'];
 		$storedPass = $firstRow['passwordHash'];
 		$image = $firstRow['image'];
 
@@ -113,6 +117,8 @@ if(mitigateBool($mysqli, "preparedStatement")){
 	      // XSS protection as we might print this value
 			$username = preg_replace("/[^a-zA-Z0-9_\-]+/", "", $fName);
 			$_SESSION['auth']['fName'] = $fName;
+			$_SESSION['auth']['sName'] = $sName;
+			$_SESSION['auth']['email'] = $cleanEmail;
 
 
 			$_SESSION['auth']['imgUrl'] = $image;

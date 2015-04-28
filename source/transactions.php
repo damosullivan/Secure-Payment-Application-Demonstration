@@ -41,6 +41,10 @@ $userId = $_SESSION['auth']['user_id'];
 		<label for="transfer_comment" >Description: </label>
 		<textarea name="comment" class="form-control" id="transfer_comment" rows="3" ></textarea>
 	</div>
+
+	<input type="hidden" name="CSRFToken" value="<?php echo hash('sha512', $_SESSION['auth']['login_string'] . (ceil(time() / 100) * 100)); ?>" />
+	
+
 	<input class="btn btn-default" type="submit" value="Pay" />
 </form>
 
@@ -54,7 +58,7 @@ $userId = $_SESSION['auth']['user_id'];
 <div class="row">
 <div class="col-md-12">
 <?php
-echo "<h3>Transactions</h3>";
+echo "<h3 id=\"transactions\" >Transactions</h3>";
 
 if(mitigateBool($mysqli, "preparedStatement")){
   	//echo "<p>Using prepared statement</p>";
@@ -79,7 +83,8 @@ WHERE transactions.to_Id = ? OR transactions.from_Id = ?");
 			echo "<tr><td>".$date_time."</td><td>".$to_Id."</td><td>".$from_Id."</td>
 			<td>".$comment."</td><td>".(sprintf('%0.2f', $amount))."</td>";
 
-			if ($userId == $to_Id) {
+			if ($_SESSION['auth']['email'] == $to_Id) {
+				
 				$balance += $amount;
 
 			}else{
@@ -96,7 +101,7 @@ WHERE transactions.to_Id = ? OR transactions.from_Id = ?");
 		echo "<tr><td></td><td></td><td></td><td></td><td>Current balance:</td><td>&euro;{$balance}</td></tr>";
 		echo "</table>";
 	}else{
-		echo "<p>No cards stored :/ . Store some <em>securely</em>?</p>";
+		echo "<p>No recent transactions.</p>";
 	}
 
 }else{
@@ -116,7 +121,7 @@ WHERE transactions.to_Id = ".$userId." OR transactions.from_Id = ".$userId.";";
 			echo "<tr><td>".$row['date_time']."</td><td>".$row['to_Id']."</td><td>".$row['from_Id']."</td>
 			<td>".$row['comment']."</td><td>".(sprintf('%0.2f', $row['amount']))."</td>";
 
-			if ($userId == $row['to_Id']) {
+			if ($_SESSION['auth']['email'] == $row['to_Id']) {
 				$balance += $row['amount'];
 
 			}else{

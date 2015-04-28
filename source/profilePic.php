@@ -16,7 +16,7 @@ if( !loggedIn($mysqli) ) {
 	$loggedIn = true;
 }
 
-outputHeader($loggedIn, $mysqli);
+#outputHeader($loggedIn, $mysqli);
 
 $userId = $_SESSION['auth']['user_id'];
 
@@ -37,11 +37,12 @@ if(move_uploaded_file ( $_FILES['file']['tmp_name'] , IMG_DIR."/".$fileNameToSav
 
 	$result = $mysqli->query("UPDATE `FYP`.`user_info` SET `image`='".$fileNameToSave."' WHERE `userId`='".$userId."';");
 
-	unlink(IMG_DIR."/".$_SESSION['auth']['imgUrl']);
-
+	if($_SESSION['auth']['imgUrl'] != 'default.jpg'){
+		unlink(IMG_DIR."/".$_SESSION['auth']['imgUrl']);
+	}
 	$_SESSION['auth']['imgUrl'] = $fileNameToSave;
 
-	#header( 'Location: home.php' ) ;
+	header( 'Location: home.php' ) ;
 
 }else{
 	echo "FAILED!";

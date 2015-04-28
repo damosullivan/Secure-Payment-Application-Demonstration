@@ -92,7 +92,7 @@ $userId = $_SESSION['auth']['user_id'];
 				}
 				echo "</table>";
 			}else{
-				echo "<p>No cards stored :/ . Store some <em>securely</em>?</p>";
+				echo "<p>You currently have no cards stored. Store some <em>securely</em>?</p>";
 			}
 		}
 

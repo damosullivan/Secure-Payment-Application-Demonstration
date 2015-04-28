@@ -38,39 +38,91 @@ echo "<h2>Welcome, $name</h2>";
 		<table class="table" >
 			<tr>
 				<th>Name</th>
-				<td>Damien  O'Sullivan</td>
+				<td><?php echo stripslashes($name . " " . $_SESSION['auth']['sName']); ?></td>
 			</tr>
 			<tr>
 				<th>Email</th>
-				<td>damosullivan@gmail.com</td>
+				<td><?php echo $_SESSION['auth']['email']; ?></td>
 			</tr>
-			<tr>
-				<th>Cards</th>
-				<td>2</td>
-			</tr>
-			<tr>
-				<th>Transactions</th>
-				<td>10</td>
-			</tr>
-			<tr>
-				<th>Balance</th>
-				<td>&euro;123</td>
-			</tr>
-		</table>
+			
+					<?php
+					$balance = 0;
+					$transactions = 0;
+					$cards = 0;
+					if(mitigateBool($mysqli, 'preparedStatement')){
+							#prep state
 
-	</div>
-	<div class="col-md-4"></div>
-	<div class="col-md-4">
-		<?php
-		echo '<img src ="../Images/'.$_SESSION['auth']['imgUrl'].'" class="img-thumbnail" />';
-		?>
 
-		<form id="newPic" method="post" action="profilePic.php" enctype="multipart/form-data" >  
-			<input type="file" class="form-control" name="file" id="file" /><!-- onchange="document.getElementById('newPic').submit();" -->
-			<input type="text" class="form-control" name="file_name" placeholder="File name" id="file_name" /><!-- onchange="document.getElementById('newPic').submit();" -->
-			<button class="btn btn-primary btn-block" type="submit">Upload..</button>
-		</form>
-	</div>
+
+
+					}else{
+							#not prep statement
+						$sql = "SELECT sum(debt.sum + cred.sum) as balance, transactions, cards FROM (
+-- SELECT *  FROM (
+
+	(SELECT from_id, -sum(amount) as sum FROM FYP.transactions WHERE from_id = " . $userId . ") as debt
+	LEFT JOIN (SELECT to_id, sum(amount) as sum FROM FYP.transactions WHERE to_id = " . $userId . ") as cred
+	ON debt.from_id = cred.to_id
+
+	)
+
+LEFT JOIN 
+	(SELECT from_id as user_id, COUNT(*) as transactions from transactions where to_id = " . $userId . " or from_Id = " . $userId . ") as trans
+ON trans.user_id = debt.from_id
+
+LEFT JOIN 
+	(SELECT user, count(*) as cards FROM FYP.card_info GROUP BY user ) as cards
+on debt.from_id = cards.user;
+";
+
+
+
+						if ($result = $mysqli->query($sql)) {
+							$row = $result->fetch_assoc();
+							$balance = $row['balance'];
+							$transactions = $row['transactions'];
+							$cards = $row['cards'];
+						}
+					}
+					$balance = sprintf('%0.2f', $balance);
+					
+					?>
+					<tr>
+						<th>Cards</th>
+						<td><a href="cards.php" ><?php echo ($cards == "" ? 0 : $cards); ?></a></td>
+					</tr>
+					<tr>
+						<th>Transactions</th>
+						<td><a href="transactions.php#transactions" ><?php echo ($transactions == "" ? 0 : $transactions); ?></td>
+					</tr>
+					<tr>
+						<th>Balance</th>
+						<td>&euro;<?php echo ($balance == "" ? 0 : $balance); ?></td>
+				<!-- 
+		SELECT sum(debt.sum + cred.sum) FROM (
+
+		(SELECT idtransactions, from_id, -sum(amount) as sum FROM FYP.transactions WHERE from_id = 27) as debt
+		LEFT JOIN (SELECT idtransactions, to_id, sum(amount) as sum FROM FYP.transactions WHERE to_id = 27) as cred
+		ON debt.from_id = cred.to_id
+
+		) 
+	-->
+</tr>
+</table>
+
+</div>
+<div class="col-md-4"></div>
+<div class="col-md-4">
+	<?php
+	echo '<img src ="../Images/'.$_SESSION['auth']['imgUrl'].'" class="img-thumbnail" />';
+	?>
+
+	<form id="newPic" method="post" action="profilePic.php" enctype="multipart/form-data" >  
+		<input type="file" class="form-control" name="file" id="file" /><!-- onchange="document.getElementById('newPic').submit();" -->
+		<input type="text" class="form-control" name="file_name" value="profile.jpg" id="file_name" /><!-- onchange="document.getElementById('newPic').submit();" -->
+		<button class="btn btn-primary btn-block" type="submit">Upload..</button>
+	</form>
+</div>
 </div>
 
 
