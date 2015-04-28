@@ -1,12 +1,23 @@
-<html>
-	<head>
-		<title>Hello</title>
-	</head>
-	<body>
+<?php
+
+include_once("../include/config.php");
+include_once(INCLUDE_DIR . "/" . "htmlFunctions.php");
+include_once(INCLUDE_DIR . "/" . "mitigate.php");
+include_once(INCLUDE_DIR . "/" . "FYP_functions.php");
+
+session_start();
+
+$mysqli = new mysqli( DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE );#Used till the end
+
+$loggedIn = false;
+
+outputHeader($loggedIn, $mysqli);
+
+?>
 		<h1>Begin</h1>
 
 		<h2>Register</h2>
-		<form action="registerDB.php" action="get" >
+		<form action="register.php" method="post" >
 			<div>
 				<label for="fname" >First name:</label>
 				<input type="text" name="fname" id="fname" />
@@ -36,7 +47,7 @@
 		
 
 		<h2>Sign-in</h2>
-		<form action="login.php" action="get" >
+		<form action="login.php" method="post" >
 			<div>
 				<label for="email" >Email:</label>
 				<input type="text" name="email" id="email" />
@@ -44,7 +55,7 @@
 		
 			<div>
 				<label for="pass" >Password:</label>
-				<input type="text" name="pass" id="pass" />
+				<input type="password" name="pass" id="pass" />
 			</div> 
 			
 			<div>			
@@ -53,6 +64,7 @@
 			</div> 		
 		</form>	
 
-
-	</body>
-</html>
+<?php
+  outputFooter($loggedIn);
+  $mysqli->close();
+?>
