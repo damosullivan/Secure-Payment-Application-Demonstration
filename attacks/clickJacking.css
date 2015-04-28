@@ -1,0 +1,42 @@
+.relative{
+	position: relative;
+}
+
+.clickJack{
+	position: absolute;
+	width: 500px;
+	height: 750px;
+	left: -530px;
+	top: -609px; 
+
+	opacity:0;
+}
+
+.second
+{
+	margin-top: 200px;
+}
+
+.trans
+{
+	opacity:0.3;
+}
+
+#window{
+	width: 900px;
+	height: 700px;
+
+}
+
+#fakeLink{
+	position: absolute; 
+	top: 0px;
+	left: 0px;
+	z-index: -3;
+}
+
+.front
+{
+	z-index: 2;
+}
+

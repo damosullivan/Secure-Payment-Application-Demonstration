@@ -1,0 +1,54 @@
+<?php
+
+function outputHeader($loggedIn, $mysqli=null){
+  echo <<<HTML
+<?xml version="1.0" encoding="UTF-8"?>
+         <!DOCTYPE html 
+          PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" 
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+  <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+      <title>Secure Payment Application Demonstration</title>
+      <link type="text/css" href="../stylesheet.css" rel="stylesheet" />
+      <link rel="shortcut icon" href="favicon.ico" />
+HTML;
+  echo mitigate($mysqli, "frameBlock");
+  echo mitigate($mysqli, "frameBlockingLegacy"); 
+  echo <<<HTML
+    
+    </head>
+    <body >
+HTML;
+    #
+    echo '<div id="wrapper" >';
+      
+
+
+#return true;
+}
+
+function outputFooter($loggedIn, $dashboard = true){
+  echo "</div><!-- END OF 'wrapper' DIV -->";
+      
+      if($dashboard){
+	echo <<<HTML
+	<div id="dashboard" >
+	  <!--<iframe id="dashboard_iframe" src="../Dashboard/dash2.php" widht="300px" onLoad="document.getElementById(id).height= (document.getElementById('dashboard_iframe').contentWindow.document.body.scrollHeight) + 'px'" ></iframe>-->
+	  <iframe id="dashboard_iframe" src="../Dashboard/dash2.php" widht="300px" ></iframe>
+	</div>
+HTML;
+      }
+      
+      echo <<<HTML
+      <div id="footer" >
+      
+      </div><!-- END OF 'footer' DIV -->
+    </body>
+  </html>
+HTML;
+
+#return true;
+}
+
+
+?>

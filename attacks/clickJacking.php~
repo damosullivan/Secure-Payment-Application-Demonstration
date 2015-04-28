@@ -1,0 +1,17 @@
+<html>
+  <head>
+    <link type="text/css" href="clickJacking.css" rel="stylesheet" />
+  </head>
+  <body>
+<div>
+<iframe id="window" src="../home.php" ></iframe>
+</div>
+
+
+
+
+
+  </body>
+</html>
+
+

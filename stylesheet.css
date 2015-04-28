@@ -1,0 +1,104 @@
+#container
+{
+	width: 950px;
+	margin-left: auto;
+	margin-right: auto;
+	position: relative;
+	min-height:650px;
+}
+
+#slide {
+    position:fixed;
+    top:0;
+    right:0;
+    width:300px;
+    height:100%;
+
+}
+
+#dashboard_iframe
+{
+	height: 100%;
+	width: 100%;
+	border-width: 0;
+	
+}
+
+
+
+
+#dashboard_toggle
+{
+	
+	position: absolute;
+	left: -80px;
+	top: 300px;
+	transform:rotate(270deg);
+	-ms-transform:rotate(270deg); /* IE 9 */
+	-webkit-transform:rotate(270deg); /* Opera, Chrome, and Safari */
+}
+
+
+#control
+{
+    position: relative;
+    height: 100%;
+    padding-top: 20px;
+    border-left:1.5px solid #5cb85c;
+    background-color: #F2F2F2;
+}
+
+
+#signup
+{
+	width: 300px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+
+/* Space out content a bit */
+body {
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+/* Everything but the jumbotron gets side spacing for mobile first views */
+.header,
+.marketing,
+.footer {
+	padding-right: 15px;
+	padding-left: 15px;
+}
+
+/* Custom page header */
+.header {
+	border-bottom: 1px solid #e5e5e5;
+}
+
+/* Main marketing message and sign up button */
+.jumbotron {
+	text-align: center;
+	border-bottom: 1px solid #e5e5e5;
+}
+.jumbotron .btn {
+	padding: 14px 24px;
+	font-size: 21px;
+}
+
+/* Supporting marketing content */
+.marketing {
+	margin: 40px 0;
+}
+.marketing p + h4 {
+	margin-top: 28px;
+}
+
+/* Space out the masthead */
+.header {
+	margin-bottom: 30px;
+}
+/* Remove the bottom border on the jumbotron for visual effect */
+.jumbotron {
+	border-bottom: 0;
+}
