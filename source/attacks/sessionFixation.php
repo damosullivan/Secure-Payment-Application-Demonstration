@@ -1,6 +1,6 @@
 <?php
 
-include_once(dirname(__FILE__) . "/include/config.php");
+include_once(dirname(__FILE__) . "/../include/config.php");
 include_once(INCLUDE_DIR . "/" . "htmlFunctions.php");
 include_once(INCLUDE_DIR . "/" . "mitigate.php");
 include_once(INCLUDE_DIR . "/" . "FYP_functions.php");
