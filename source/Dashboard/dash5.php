@@ -29,6 +29,8 @@ include_once("norm.php");
 
 </script>
 
+<base target="_parent">
+
 </head>
 <body style="background:#F2F2F2;" >
 	<div style="width:299px;" >
