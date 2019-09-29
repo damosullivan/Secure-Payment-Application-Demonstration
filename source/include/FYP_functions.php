@@ -87,7 +87,7 @@ function fnDecrypt($sValue, $sSecretKey)
 function loggedIn($mysqli){
   if(isset($_SESSION['auth']) && isset($_SESSION['auth']['user_id']) ) {
       
-      $statement = $mysqli->prepare("SELECT passwordHash FROM FYP.user_info WHERE userId = ? LIMIT 1");
+      $statement = $mysqli->prepare("SELECT passwordHash FROM user_info WHERE userId = ? LIMIT 1");
       
       $id = $_SESSION['auth']['user_id'];
       

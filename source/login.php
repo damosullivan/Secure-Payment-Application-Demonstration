@@ -38,7 +38,7 @@ $cleanEmail = mitigate($mysqli, 'realEscapeString', $email);
 
 if(mitigateBool($mysqli, "preparedStatement")){
 //if(false){
-	$statement = $mysqli->prepare("SELECT userId, fName, sName, passwordHash, image FROM FYP.user_info WHERE email = ? LIMIT 1");
+	$statement = $mysqli->prepare("SELECT userId, fName, sName, passwordHash, image FROM user_info WHERE email = ? LIMIT 1");
 	$statement->bind_param('s', $cleanEmail);
 	$statement->execute();
 	$statement->store_result();
@@ -92,7 +92,7 @@ if(mitigateBool($mysqli, "preparedStatement")){
 		header( 'Location: index.php?error=wrong email' ) ;
 	}
 }else{#not prepared statements!!!
-	$sql = "SELECT userId, fName, sName, passwordHash, image FROM FYP.user_info WHERE email = '" . $cleanEmail . "' LIMIT 1";
+	$sql = "SELECT userId, fName, sName, passwordHash, image FROM user_info WHERE email = '" . $cleanEmail . "' LIMIT 1";
 
 	$result = $mysqli->query($sql);
 

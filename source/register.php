@@ -37,7 +37,7 @@ $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
 	  **/
 
 	  if ( mitigateBool($mysqli, 'preparedStatement') ) {
-	  	$statement = $mysqli->prepare("SELECT email FROM FYP.user_info WHERE email = ? LIMIT 1");
+	  	$statement = $mysqli->prepare("SELECT email FROM user_info WHERE email = ? LIMIT 1");
 	  	$statement->bind_param('s', $sqlEmail);
 	  	$statement->execute();
 	  	$statement->store_result();
@@ -62,7 +62,7 @@ $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
 
 
 	  }else{
-	  	$sql = "SELECT email FROM FYP.user_info WHERE email = '". $sqlEmail. "' LIMIT 1;";
+	  	$sql = "SELECT email FROM user_info WHERE email = '". $sqlEmail. "' LIMIT 1;";
 	  	$result = $mysqli->query($sql);
 
 	  	if ( $result->num_rows == 0 ) {
@@ -126,8 +126,8 @@ $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
 
 
 	  /*
-	  $sqlMitigate = array("regularSql" => "SELECT email FROM FYP.user_info WHERE email = '". $sqlEmail. "' LIMIT 1;",
-	  	"prepareSql" => "SELECT email FROM FYP.user_info WHERE email = ? LIMIT 1",
+	  $sqlMitigate = array("regularSql" => "SELECT email FROM user_info WHERE email = '". $sqlEmail. "' LIMIT 1;",
+	  	"prepareSql" => "SELECT email FROM user_info WHERE email = ? LIMIT 1",
 	  	"prepareTypes" => "s",
 				"prepareParam" => array(&$sqlEmail)#must be refferences, not values
 				);
