@@ -1,8 +1,9 @@
-CREATE DATABASE  IF NOT EXISTS `FYP` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_bin */;
-USE `FYP`;
+CREATE DATABASE  IF NOT EXISTS `a9337_FYP`
+/*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_bin */;
+USE `a9337_FYP`;
 -- MySQL dump 10.13  Distrib 5.5.35, for debian-linux-gnu (i686)
 --
--- Host: 127.0.0.1    Database: FYP
+-- Host: 127.0.0.1    Database: a9337_FYP
 -- ------------------------------------------------------
 -- Server version	5.5.35-0ubuntu0.12.04.2
 
