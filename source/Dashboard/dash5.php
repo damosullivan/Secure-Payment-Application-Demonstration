@@ -35,7 +35,7 @@ include_once("norm.php");
 
 		<?php
 			#back to previous page. include get info??
-		$mysqli = new mysqli( 'localhost', 'dos4', 'Password123', 'FYP' );
+		$mysqli = new mysqli( DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE );#Used till the end
 
 		$back = "#";
 		if( isset($_SERVER["REQUEST_URI"]) ){
