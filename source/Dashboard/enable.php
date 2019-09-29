@@ -1,5 +1,5 @@
 <?php
-	include_once(dirname(__FILE__) . "../include/config.php");
+	include_once(dirname(__FILE__) . "/../include/config.php");
 	$referAddress = $_SERVER['HTTP_REFERER'];
 	if (isset($_GET['enable'])){
 		$mysqli = new mysqli( DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE );
