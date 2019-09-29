@@ -1,7 +1,8 @@
 <?php
+	include_once(dirname(__FILE__) . "/include/config.php");
 	$referAddress = $_SERVER['HTTP_REFERER'];
 	if (isset($_GET['enable'])){
-		$mysqli = new mysqli( 'localhost', 'dos4', 'Password123', 'FYP' );
+		$mysqli = new mysqli( DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE );
 		$onlyEnable = $_GET['enable'];
 
 		#$sql = "update code SET state = 0 WHERE idcode > 0";##DO THEM ALL
@@ -19,7 +20,7 @@
 
 	}
 	if(isset($_GET['disable'])){
-		$mysqli = new mysqli( 'localhost', 'dos4', 'Password123', 'FYP' );
+		$mysqli = new mysqli( DB_HOST, DB_USER, DB_PASSWORD, DB_DATABASE );
 		$onlyDisable = $_GET['disable'];
 
 		foreach( $onlyDisable as $name){

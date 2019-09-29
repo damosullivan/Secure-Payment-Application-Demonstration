@@ -3,7 +3,6 @@
 
 
 function mitigate($mysqli, $name, $args = null){
-  #$mysqli = new mysqli( 'localhost', 'dos4', 'Password123', 'FYP' );
   $sql = "SELECT * FROM code WHERE name = '".$name."';";
   $result = "Uh, Oh.";
   if($result = $mysqli->query($sql)){
@@ -24,7 +23,6 @@ function mitigate($mysqli, $name, $args = null){
 }
 
 function mitigateBool($mysqli, $name){
-  #$mysqli = new mysqli( 'localhost', 'dos4', 'Password123', 'FYP' );
   $sql = "SELECT * FROM code WHERE name = '".$name."';";
   if($result = $mysqli->query($sql)){
     $row = $result->fetch_assoc();
